@@ -47,6 +47,10 @@ In a perfect world, at least every MAJOR EOL jQuery release line would have a se
 > [!NOTE]
 > The 3.x release line is currently supported by jQuery, so we have no need to provide patched versions of 3.x at this time. jQuery 3.5 introduced a breaking change, but it was necessary to fix CVE-2020-11022 and CVE-2020-11023. However, since these vulnerabilities are present in virtually all versions of jQuery, there would be no value in providing a patched version of 3.4 as it would need to include that breaking change anyway.
 
+## Contributing
+
+See [security/README.md](./security/README.md)
+
 ## Goals
 
 Ultimately, our hope is that these patched versions can be approved and accepted by the official jQuery project/maintainers and deployed as official jQuery releases.
