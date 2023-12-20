@@ -1,0 +1,23 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: #1f1f1f;
+  color: #ececec;
+  font-size: 1.6rem;
+}
+
+button {
+  display: block;
+  margin: 3rem;
+}
+
+#grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+}
+
+#yee {
+  display: none;
+}

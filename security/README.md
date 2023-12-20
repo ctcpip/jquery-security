@@ -12,7 +12,7 @@ Includes instructions only for how to run the tests on MacOS. (PRs welcome for i
 #### 1.2.6 / 1.2.7-sec
 
 - Run `make test` from the root folder of the repo
-- Open `tests/index.html` in your browser
+- Open `/tests/index.html` in your browser
 
 #### 1.6.4 / 1.6.5-sec
 
@@ -34,6 +34,7 @@ At the moment, A/B E2E test verification for CVE fixes is done manually. We shou
 ### How to run A/B end-to-end acceptance tests
 
 - Checkout the `main` branch
+- Run the node/express server in `/security/server`: `node index.js`
 - Use a local webserver to serve the static files in the folder for the version you care about in this repo, e.g. `security/1.6.5-sec`.
   - This is trivial using something like VS Code. Just open up one of the HTML files, such as `/security/1.6.5-sec/index-1.6.4.html` and using the command palette, select `Live Preview: Show Preview (External Browser)`
 - Open the A HTML file (in this example that would be `index-1.6.4.html` and if you're using VS Code to serve the files, it will likely be served at `http://127.0.0.1:3000/security/1.6.5-sec/index-1.6.4.html`)

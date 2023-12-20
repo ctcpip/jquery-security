@@ -33,6 +33,7 @@ function CVE_2015_9251() {
       log('CVE-2015-9251 CANNOT BE VERIFIED!');
     }
   });
+	log('CVE-2015-9251 is not reproducible in 1.2.6, so ignore this test');
 }
 
 function CVE_2019_11358() {
