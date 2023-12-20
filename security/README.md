@@ -9,6 +9,11 @@
 
 Includes instructions only for how to run the tests on MacOS. (PRs welcome for instructions for other platforms!)
 
+#### 1.2.6 / 1.2.7-sec
+
+- Run `make test` from the root folder of the repo
+- Open `tests/index.html` in your browser
+
 #### 1.6.4 / 1.6.5-sec
 
 ##### Prerequisites
@@ -20,7 +25,7 @@ Includes instructions only for how to run the tests on MacOS. (PRs welcome for i
 
 - Checkout the branch of the version you are interested in, e.g. `1.6.5-sec`
 - Run php server from the root folder of the repo: `php -S 127.0.0.1:8000`
-- Open `tests/index.html` in your browser
+- Open `127.0.0.1:8000/tests/index.html` in your browser
 
 ## A/B end-to-end acceptance tests
 
