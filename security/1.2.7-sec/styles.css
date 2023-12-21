@@ -21,3 +21,7 @@ button {
 #yee {
   display: none;
 }
+
+.error {
+	color: red;
+}

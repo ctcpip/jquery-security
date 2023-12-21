@@ -4,9 +4,16 @@ function log(txt){
   document.querySelector('#log').append(p);
 }
 
+function error(txt){
+  const p = document.createElement("p");
+  p.append(txt);
+	p.classList.add('error');
+  document.querySelector('#log').append(p);
+}
+
 window.onerror = function(message, source, lineno, colno, error) {
-	log(message);
-	log(error.stack);
+	error(message, true);
+	error(error.stack);
 };
 
 const windowAlert = window.alert;
@@ -15,6 +22,13 @@ window.alert = function(...args) {
   log(`alert!`);
   // windowAlert(...args);
 };
+
+$(document).ajaxError(function(...args) {
+	error(`AJAX ERROR! CAN'T TEST FOR CVE! IS SERVER DOWN?`);
+	for (let i = 0; i < args.length; i++) {
+		error(JSON.stringify(args[i]));
+	}
+});
 
 function CVE_2012_6708() {
   log('called CVE_2012_6708');
@@ -29,8 +43,8 @@ function CVE_2015_9251() {
     // since we are relying on an external resource for this test, guard against regression
     const expectedContentFound = content === "alert(document.domain);";
     if(!expectedContentFound) {
-      log(`unexpected content found: '${content}'`);
-      log('CVE-2015-9251 CANNOT BE VERIFIED!');
+      error(`unexpected content found: '${content}'`);
+      error('CVE-2015-9251 CANNOT BE VERIFIED!');
     }
   });
 }
