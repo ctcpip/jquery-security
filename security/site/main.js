@@ -178,18 +178,39 @@ function updateCVE(cve) {
 	}
 }
 
-function CVE_2011_4969(){
-	error('TODO');
+function CVE_2011_4969(cve){
+
+	location.hash = `<img src="x" onerror="triggerCVE('${cve[0]}');">`;
+
+	try {
+		// presumably, when this vulnerability was discovered, browsers did not return `location.hash` encoded.
+		// so we can't reproduce the issue without decoding
+		$(decodeURIComponent(location.hash));
+	} catch (e) {
+		handleJQuerySyntaxError(e);
+	}
+
+
+}
+
+function handleJQuerySyntaxError(e){
+
+	const JQUERY_SYNTAX_ERROR = 'Syntax error, unrecognized expression';
+
+	const errorMessage = typeof e === 'string' ? e : e.message;
+
+	// we expect newer (unaffected) jQuery to throw a syntax error, so ignore it
+	if(!errorMessage.startsWith(JQUERY_SYNTAX_ERROR)) {
+		error(e);
+	}
+
 }
 
 function CVE_2012_6708(cve) {
 	try {
 		$(`element[attribute='<img src="x" onerror="triggerCVE('${cve[0]}');" />']`).html();
 	} catch (e) {
-		// we expect newer (unaffected) jQuery to throw a syntax error, so ignore it
-		if(!e.message.startsWith('Syntax error, unrecognized expression')) {
-			error(e);
-		}
+		handleJQuerySyntaxError(e);
 	}
 }
 
@@ -238,5 +259,6 @@ function CVE_2020_11023(cve) {
 }
 
 function CVE_2020_23064(cve) {
-  error('TODO');
+	// this is a duplicate of CVE-2020-11023
+	CVE_2020_11023(cve);
 }
