@@ -117,6 +117,7 @@ function changeVersion() {
 
 		// bring this line back after fixing errors
 		cveButtons.forEach(b => b.click());
+		document.querySelectorAll('.cve').forEach(e => e.classList.remove('hide'));
 	};
 
 	const versionParts = version.split('.');
@@ -129,6 +130,7 @@ function changeVersion() {
 		else {
 			error(`failed to load jQuery ${loadVersion}.`);
 		}
+		document.querySelectorAll('.cve').forEach(e => e.classList.add('hide'));
 	};
 
   s.src = `vendor/jquery-${loadVersion}.js`;
@@ -140,6 +142,7 @@ function changeVersion() {
 		cve[1].triggerCount = 0;
 	}
 
+	document.querySelectorAll('.cve__footer').forEach(e => e.classList.remove('cve__footer--error'));
 	document.querySelectorAll('.cve__footer-status').forEach(e => e.textContent= '');
 	document.querySelectorAll('.cve__footer-note').forEach(e => e.textContent= '');
 	errors.innerHTML = '';
@@ -164,6 +167,7 @@ function updateCVE(cve) {
 	let { triggerCount } = cve[1];
 
 	if(triggered){
+		$relevantCVEFooter.addClass('cve__footer--error');
 		triggerCount = Number.isInteger(triggerCount) ? triggerCount += 1 : 1;
 		$footerStatus.text(`CVE triggered ${triggerCount} time${triggerCount > 1 ? 's' : ''}`);
 		cve[1].triggerCount = triggerCount;

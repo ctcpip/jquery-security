@@ -8,7 +8,7 @@
 	--grey: #a6b7c8;
 	--header: #6f70ff;
 	--mono: IBM Plex Mono, Consolas, monospace;
-	--red: #ff6f70;
+	--purp: #884a9c;
 	--text: #ececec;
 }
 
@@ -87,6 +87,7 @@ input[type="checkbox"] {
 	color: var(--bg);
 	font-size: 1.8rem;
 	font-weight: bold;
+	height: 2.7rem;
 	padding: 1rem;
 	text-align: center;
 	&::selection {
@@ -105,8 +106,13 @@ input[type="checkbox"] {
 
 .cve__footer {
 	background-color: var(--blue-med);
+	min-height: 2.7rem;
 	padding: 1rem;
 	text-align: center;
+}
+
+.cve__footer--error {
+	background-color: var(--purp);
 }
 
 .cve__footer-status {
@@ -130,12 +136,15 @@ input[type="checkbox"] {
 }
 
 #errors {
-	background-color: var(--red);
-	color: var(--bg);
+	background-color: var(--purp);
 
 	p {
-		border-bottom: solid .1rem var(--bg);
+		border-bottom: solid .1rem var(--text);
 		margin: 0;
 		padding: 1rem;
 	}
+}
+
+.hide {
+	display: none;
 }
