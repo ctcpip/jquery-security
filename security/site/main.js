@@ -183,7 +183,14 @@ function CVE_2011_4969(){
 }
 
 function CVE_2012_6708(cve) {
-  $(`element[attribute='<img src="x" onerror="triggerCVE('${cve[0]}');" />']`).html();
+	try {
+		$(`element[attribute='<img src="x" onerror="triggerCVE('${cve[0]}');" />']`).html();
+	} catch (e) {
+		// we expect newer (unaffected) jQuery to throw a syntax error, so ignore it
+		if(!e.message.startsWith('Syntax error, unrecognized expression')) {
+			error(e);
+		}
+	}
 }
 
 function CVE_2015_9251(cve) {
