@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>jQuery Security Acceptance Tests</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+		<header>
+			<div>
+				jQuery
+				<select id="version" aria-label="jQuery Version"></select>
+				<label>
+					Patched
+					<input id="patched" type="checkbox"/>
+				</label>
+				CVE Acceptance Tests
+			</div>
+			<div>
+				Loaded jQuery:
+				v<span id="loaded-jQuery"></span>
+			</div>
+		</header>
+		<div id="errors"></div>
+		<div id="cve-container">
+		</div>
+    <div id="yee"></div>
+  </body>
+</html>

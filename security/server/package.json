@@ -1,6 +1,8 @@
 {
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "serve": "node index.js"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2"

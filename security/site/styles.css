@@ -1,0 +1,141 @@
+:root {
+  --bg: #1f1f1f;
+	--blue: #6fb8ff;
+	--blue-med: #004283;
+	--blue-white: #e5f2ff;
+	--green: #6fffb6;
+	--green-hover: #bdffde;
+	--grey: #a6b7c8;
+	--header: #6f70ff;
+	--mono: IBM Plex Mono, Consolas, monospace;
+	--red: #ff6f70;
+	--text: #ececec;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+	font-family: IBM Plex Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+	line-height: 1.5;
+	margin: 0;
+}
+
+header {
+	background-color: var(--header);
+	display: flex;
+	font-size: 2.4rem;
+	justify-content: space-between;
+	padding: 1rem 2rem;
+}
+
+#loaded-jQuery {
+	font-family: var(--mono);
+}
+
+button {
+	background-color: var(--green);
+	border: .2rem solid var(--bg);
+	display: inline-block;
+	margin: 3rem;
+	padding: 1rem;
+	&:hover{
+		background-color: var(--green-hover);
+		border-color: mint;
+	}
+}
+
+p {
+	overflow-wrap: anywhere;
+}
+
+select {
+	background-color: var(--blue);
+	border: solid .2rem var(--blue-white);
+	font-family: var(--mono);
+	font-size: 2.4rem;
+	margin: 0 1rem;
+}
+
+input[type="checkbox"] {
+	accent-color: var(--bg);
+	border: solid .2rem var(--blue-white);
+	margin: 0 1rem;
+	transform: scale(1.5);
+}
+
+#cve-container {
+	align-items: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 1rem;
+}
+
+.cve {
+	background-color: var(--grey);
+	border: solid .2rem var(--blue-white);
+	margin: 2rem;
+	width: 32rem;
+}
+
+.cve__header {
+	background-color: var(--blue);
+	color: var(--bg);
+	font-size: 1.8rem;
+	font-weight: bold;
+	padding: 1rem;
+	text-align: center;
+	&::selection {
+		background-color: var(--blue-white);
+	}
+}
+
+.cve__body {
+	border-bottom: .2rem solid var(--blue-white);
+	border-left: .1rem solid var(--blue-white);
+	border-right: .1rem solid var(--blue-white);
+	border-top: .2rem solid var(--blue-white);
+	display: flex;
+	justify-content: center;
+}
+
+.cve__footer {
+	background-color: var(--blue-med);
+	padding: 1rem;
+	text-align: center;
+}
+
+.cve__footer-status {
+	display: inline-block;
+	font-size: 1.8rem;
+	font-weight: bold;
+}
+
+.cve__footer-note {
+	display: inline-block;
+	font-size: 1.6rem;
+}
+
+
+#log {
+	margin: 1rem;
+}
+
+#yee {
+  display: none;
+}
+
+#errors {
+	background-color: var(--red);
+	color: var(--bg);
+
+	p {
+		border-bottom: solid .1rem var(--bg);
+		margin: 0;
+		padding: 1rem;
+	}
+}
