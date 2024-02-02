@@ -1,3 +1,7 @@
+import { cveMap, getPatchedVersion, jQueryVersions } from './cve-data.mjs'
+
+const dis = this;
+
 function log(txt){
   console.log(txt);
 }
@@ -27,17 +31,6 @@ window.alert = function(...args) {
   // windowAlert(...args);
 };
 
-const cveMap = new Map([
-  ['2011-4969', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2'] }],
-  ['2012-6708', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3'] }],
-	['2015-9251', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3', '1.12.4', '2.2.4'] }],
-	['2019-11358', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3', '1.12.4', '2.2.4'] }],
-	['2020-7656', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3'] }],
-	['2020-11022', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3', '1.12.4', '2.2.4'] }],
-	['2020-11023', { versions: ['1.2.6', '1.3.2', '1.4.4', '1.5.2', '1.6.4', '1.7.2', '1.8.3', '1.12.4', '2.2.4'] }],
-	['2020-23064', { versions: ['2.2.4'] }],
-]);
-
 const cveTemplate = `
 <div class="cve">
 	<div class="cve__header">
@@ -61,19 +54,18 @@ for (const cve of cveMap) {
 	const cveID = `CVE-${cve[0]}`;
 	const t = document.createElement('template');
   t.innerHTML = cveTemplate;
+	t.content.querySelector('.cve').id = cveID;
 	t.content.querySelector('.cve__header').textContent = cveID;
 	const b = t.content.querySelector('button');
 	b.textContent = cveID;
 	b.addEventListener('click', function (){
 		log(`called ${cveID}`)
-		window[cveID.replaceAll('-', '_')](cve);
+		window.doNotPolluteTheGlobalNamespace[cveID.replaceAll('-', '_')](cve);
 		setTimeout(() => updateCVE(cve), 100);
 	});
 	cveButtons.push(b);
 	cveContainer.append(t.content);
 }
-
-const jQueryVersions = new Set(Array.from(cveMap, ([name, value]) => (value.versions)).flat());
 
 for (const v of jQueryVersions) {
 	const o = document.createElement('option');
@@ -84,12 +76,24 @@ for (const v of jQueryVersions) {
 const VERSION = 'VERSION';
 const PATCHED = 'PATCHED';
 
-const sessionVersion = sessionStorage.getItem(VERSION);
-const sessionPatched = sessionStorage.getItem(PATCHED);
+const qs = (new URL(document.location)).searchParams;
+const qsVersion = qs.get(VERSION);
+const qsPatched = qs.get(PATCHED);
 
-if(sessionVersion) {
-	selVersion.value = sessionVersion;
-	chkPatched.checked = sessionPatched === 'true';
+if(qsVersion) {
+	selVersion.value = qsVersion;
+	chkPatched.checked = qsPatched === 'true';
+}
+else {
+
+	const sessionVersion = sessionStorage.getItem(VERSION);
+	const sessionPatched = sessionStorage.getItem(PATCHED);
+
+	if(sessionVersion) {
+		selVersion.value = sessionVersion;
+		chkPatched.checked = sessionPatched === 'true';
+	}
+
 }
 
 changeVersion();
@@ -120,8 +124,7 @@ function changeVersion() {
 		document.querySelectorAll('.cve').forEach(e => e.classList.remove('hide'));
 	};
 
-	const versionParts = version.split('.');
-	const loadVersion = patched ? `${versionParts[0]}.${versionParts[1]}.${Number(versionParts[2]) + 1}-sec` : version;
+	const loadVersion = patched ? getPatchedVersion(version) : version;
 
 	s.onerror = function() {
 		if(typeof jQuery !== 'undefined') {
@@ -194,6 +197,7 @@ function CVE_2011_4969(cve){
 		handleJQuerySyntaxError(e);
 	}
 
+	history.replaceState(null, null, ' ');  // clear out location.hash completely
 
 }
 
@@ -219,7 +223,7 @@ function CVE_2012_6708(cve) {
 }
 
 function CVE_2015_9251(cve) {
-  $.get("http://localhost:4000/jqueryxss", function( content ) {
+  $.get("http://localhost:3334/jqueryxss", function( content ) {
     // since we are relying on an external resource for this test, guard against regression
 		const expected = `triggerCVE('${cve[0]}');`;
     const expectedContentFound = content === expected;
@@ -228,7 +232,6 @@ function CVE_2015_9251(cve) {
       error('CVE-2015-9251 CANNOT BE VERIFIED!');
     }
   });
-	// log('CVE-2015-9251 is not reproducible in 1.2.6, so ignore this test');
 }
 
 function CVE_2019_11358(cve) {
@@ -266,3 +269,15 @@ function CVE_2020_23064(cve) {
 	// this is a duplicate of CVE-2020-11023
 	CVE_2020_11023(cve);
 }
+
+window.triggerCVE = triggerCVE;
+window.doNotPolluteTheGlobalNamespace = {
+	CVE_2011_4969,
+	CVE_2012_6708,
+	CVE_2015_9251,
+	CVE_2019_11358,
+	CVE_2020_7656,
+	CVE_2020_11022,
+	CVE_2020_11023,
+	CVE_2020_23064,
+};

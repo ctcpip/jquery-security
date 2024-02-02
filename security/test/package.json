@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "./test.sh"
+  },
+  "dependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

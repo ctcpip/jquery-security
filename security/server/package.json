@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "serve": "node index.js"
+    "serve": "node index.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
