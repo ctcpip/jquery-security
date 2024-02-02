@@ -1,7 +1,5 @@
 import { cveMap, getPatchedVersion, jQueryVersions } from './cve-data.mjs'
 
-const dis = this;
-
 function log(txt){
   console.log(txt);
 }

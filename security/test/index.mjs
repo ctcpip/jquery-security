@@ -18,11 +18,14 @@ const timeout = 5 * 1000;
 let cmd;
 
 if(platform === 'darwin'){
-  cmd = `"/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome" --headless=old --virtual-time-budget=${timeout} --run-all-compositor-stages-before-draw --dump-dom `;
+  cmd = `"/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome" `;
 }
 else {
 	// presume *nix
+	cmd = 'chrome ';
 }
+
+cmd += `--headless=old --virtual-time-budget=${timeout} --run-all-compositor-stages-before-draw --dump-dom `;
 
 for (const v of jQueryVersions) {
 	try {
@@ -46,7 +49,7 @@ function test(version, patched) {
 
 	console.log(`
 --------------------------------------------------------------------------------
-	validating jQuery v${effectiveVersion}
+  validating jQuery v${effectiveVersion}
 --------------------------------------------------------------------------------
 `)
 
