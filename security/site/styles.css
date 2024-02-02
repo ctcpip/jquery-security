@@ -148,3 +148,13 @@ input[type="checkbox"] {
 .hide {
 	display: none;
 }
+
+@keyframes flashy {
+  from { background: var(--blue); }
+  to   { background: default; }
+}
+
+.flash {
+  animation-duration: 0.5s;
+  animation-name: flashy;
+}

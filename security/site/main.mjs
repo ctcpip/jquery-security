@@ -79,8 +79,13 @@ const qsVersion = qs.get(VERSION);
 const qsPatched = qs.get(PATCHED);
 
 if(qsVersion) {
+
 	selVersion.value = qsVersion;
 	chkPatched.checked = qsPatched === 'true';
+
+	// clear out query string
+	window.history.pushState({}, "",  document.location.href.split("?")[0]);
+
 }
 else {
 
@@ -181,6 +186,10 @@ function updateCVE(cve) {
 			$footerNote.text(`(but v${v} is not vulnerable to this CVE)`);
 		}
 	}
+
+	$relevantCVEFooter.addClass('flash');
+	setTimeout(() => $relevantCVEFooter.removeClass('flash'), 500);
+
 }
 
 function CVE_2011_4969(cve){
