@@ -69,8 +69,18 @@ function test(version, patched) {
 
 	for (const cve of cveMap) {
 		if(cve[1].versions.includes(version)) {
-			const status = d.querySelector(`#CVE-${cve[0]} .cve__footer-status`).textContent;
-			console.log(status);
+			const cveName = `CVE-${cve[0]}`
+			const status = d.querySelector(`#${cveName} .cve__footer-status`).textContent;
+
+			if(status.startsWith(`Can't`)) {
+				console.log(`${cveName.padEnd(14)}  -  ${status}`);
+			}
+			else {
+				console.log(status
+					.replace('CVE', `${cveName.padEnd(14)}  - `)
+				);
+			}
+
 		}
 	}
 
