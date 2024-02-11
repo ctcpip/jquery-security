@@ -1,16 +1,22 @@
 import os from 'node:os';
 import { execSync } from 'node:child_process';
-import { setTimeout } from 'node:timers/promises';
-import assert from 'node:assert';
 import { JSDOM } from 'jsdom';
 import { cveMap, getPatchedVersion, jQueryVersions } from '../site/cve-data.mjs'
+import t from 'tap'
+import chalk from 'chalk';
 
-let failedAssertions = 0;
+function banner(txt) {
+	console.log(chalk.magenta(`
+--------------------------------------------------------------------------------
+  ${chalk.cyan(txt)}
+--------------------------------------------------------------------------------
+`))
+}
 
-console.log('\nrunning jQuery security tests...\n');
+banner('running jQuery security tests...');
 
 const platform = os.platform();
-console.log(`platform detected: ${platform}`);
+console.log(chalk.white(`  platform detected: ${platform}`));
 
 const baseURL = 'http://127.0.0.1:3333/index.html';
 const timeout = 5 * 1000;
@@ -28,44 +34,23 @@ else {
 cmd += `--headless=old --virtual-time-budget=${timeout} --run-all-compositor-stages-before-draw --dump-dom `;
 
 for (const v of jQueryVersions) {
-	try {
-		test(v);
-		test(v, true);
-	} catch (e) {
-		if(e instanceof assert.AssertionError) {
-			console.error(e);
-			failedAssertions += 1;
-		}
-		else {
-			throw e;
-		}
-	}
+	await t.test(v, async => testJQuery(v));
+	await t.test(getPatchedVersion(v), async => testJQuery(v, true));
 }
 
-
-function test(version, patched) {
+async function testJQuery(version, patched) {
 
 	const effectiveVersion = patched ? getPatchedVersion(version) : version;
 
-	console.log(`
---------------------------------------------------------------------------------
-  validating jQuery v${effectiveVersion}
---------------------------------------------------------------------------------
-`)
+	banner(`validating jQuery v${effectiveVersion}`);
 
-	let p;
-
-	try {
-		p = execSync(`${cmd}"${baseURL}?VERSION=${version}&PATCHED=${patched}"`);
-	} catch (error) {
-		console.error(e);
-	}
+	const p = execSync(`${cmd}"${baseURL}?VERSION=${version}&PATCHED=${patched}"`);
 
 	const dom = new JSDOM(p.toString());
 
 	const d = dom.window.document;
 
-	assert.strictEqual(d.querySelector('#loaded-jQuery').textContent, effectiveVersion, `loaded jQuery v${effectiveVersion}`);
+	t.equal(d.querySelector('#loaded-jQuery').textContent, effectiveVersion, `loaded jQuery v${effectiveVersion}`);
 
 	for (const cve of cveMap) {
 		if(cve[1].versions.includes(version)) {
@@ -73,21 +58,15 @@ function test(version, patched) {
 			const status = d.querySelector(`#${cveName} .cve__footer-status`).textContent;
 
 			if(status.startsWith(`Can't`)) {
-				console.log(`${cveName.padEnd(14)}  -  ${status}`);
+				console.log(chalk.green(`${cveName.padEnd(14)}  -  ${status}`));
 			}
 			else {
-				console.log(status
+				console.log(chalk.red(status
 					.replace('CVE', `${cveName.padEnd(14)}  - `)
-				);
+				));
 			}
-
 		}
 	}
-
 }
 
-console.log('\n...done\n');
-
-if(failedAssertions) {
-	process.exitCode = 1;
-}
+banner('...done');

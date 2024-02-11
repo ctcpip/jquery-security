@@ -1,7 +1,7 @@
 #!/bin/sh
 
 node ../server/index.cjs & SERVER_PID=$! ;
-node --test ;
+tap run --allow-empty-coverage;
 TEST_EXIT=$? ;
 kill $SERVER_PID ;
 exit $TEST_EXIT ;
