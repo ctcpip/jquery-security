@@ -1,6 +1,11 @@
 {
   "private": true,
   "scripts": {
+    "//": "use node test runner",
+    "node": "npm test node",
+    "//": "use tap test runner",
+    "tap": "npm test tap",
+    "//": "run directly; raw tap output",
     "test": "./test.sh"
   },
   "dependencies": {

@@ -5,18 +5,23 @@ import { cveMap, getPatchedVersion, jQueryVersions } from '../site/cve-data.mjs'
 import t from 'tap'
 import chalk from 'chalk';
 
-function banner(txt) {
-	console.log(chalk.magenta(`
+// these are fully patched
+const patchedVersions = [
+	'1.2.7-sec',
+	'1.6.5-sec'
+];
+
+function banner(txt, {borderColor = 'magenta', textColor = 'cyan'} = {borderColor: 'magenta',  textColor: 'cyan'}) {
+	console.log(chalk[borderColor](`
 --------------------------------------------------------------------------------
-  ${chalk.cyan(txt)}
+  ${chalk[textColor](txt)}
 --------------------------------------------------------------------------------
 `))
 }
 
-banner('running jQuery security tests...');
-
 const platform = os.platform();
-console.log(chalk.white(`  platform detected: ${platform}`));
+banner(`platform detected: ${platform}`, { borderColor:'white', textColor: 'white' });
+banner('running jQuery security tests...');
 
 const baseURL = 'http://127.0.0.1:3333/index.html';
 const timeout = 5 * 1000;
@@ -34,11 +39,11 @@ else {
 cmd += `--headless=old --virtual-time-budget=${timeout} --run-all-compositor-stages-before-draw --dump-dom `;
 
 for (const v of jQueryVersions) {
-	await t.test(v, async => testJQuery(v));
-	await t.test(getPatchedVersion(v), async => testJQuery(v, true));
+	await t.test(`validate jQuery v${v}`, async t => testJQuery(v, false, t));
+	await t.test(`validate jQuery v${getPatchedVersion(v)}`, async t => testJQuery(v, true, t));
 }
 
-async function testJQuery(version, patched) {
+async function testJQuery(version, patched, t) {
 
 	const effectiveVersion = patched ? getPatchedVersion(version) : version;
 
@@ -56,8 +61,9 @@ async function testJQuery(version, patched) {
 		if(cve[1].versions.includes(version)) {
 			const cveName = `CVE-${cve[0]}`
 			const status = d.querySelector(`#${cveName} .cve__footer-status`).textContent;
+			const notReproducible = status.startsWith(`Can't`);
 
-			if(status.startsWith(`Can't`)) {
+			if(notReproducible) {
 				console.log(chalk.green(`${cveName.padEnd(14)}  -  ${status}`));
 			}
 			else {
@@ -65,8 +71,27 @@ async function testJQuery(version, patched) {
 					.replace('CVE', `${cveName.padEnd(14)}  - `)
 				));
 			}
+
+			if(patched && patchedVersions.includes(effectiveVersion)) {
+				t.ok(notReproducible, `${cveName} should be patched in v${effectiveVersion}`);
+			}
+			else {
+				if(cve[1].exceptions.includes(version)) {
+					t.ok(notReproducible, `${cveName} is supposed be reproducible in v${effectiveVersion} according to the CVE but it can't be reproduced`);
+				}
+				else {
+					t.notOk(notReproducible, `${cveName} should be reproducible in v${effectiveVersion}`);
+				}
+			}
 		}
 	}
 }
 
-banner('...done');
+banner(`...done`);
+
+if(t.counts.fail) {
+	banner('FAIL 💔', { borderColor: 'red', textColor: 'red'});
+}
+else {
+	banner('PASS 💚', { borderColor: 'green', textColor: 'green'});
+}
