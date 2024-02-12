@@ -55,32 +55,33 @@ async function testJQuery(version, patched, t) {
 
 	const d = dom.window.document;
 
+	t.equal(d.getElementById('errors').childNodes.length, 0, 'there are no errors');
 	t.equal(d.querySelector('#loaded-jQuery').textContent, effectiveVersion, `loaded jQuery v${effectiveVersion}`);
 
 	for (const cve of cveMap) {
 		if(cve[1].versions.includes(version)) {
 			const cveName = `CVE-${cve[0]}`
 			const status = d.querySelector(`#${cveName} .cve__footer-status`).textContent;
-			const notReproducible = status.startsWith(`Can't`);
+			const reproducible = !status.startsWith(`Can't`);
 
-			if(notReproducible) {
-				console.log(chalk.green(`${cveName.padEnd(14)}  -  ${status}`));
-			}
-			else {
+			if(reproducible) {
 				console.log(chalk.red(status
 					.replace('CVE', `${cveName.padEnd(14)}  - `)
 				));
 			}
+			else {
+				console.log(chalk.green(`${cveName.padEnd(14)}  -  ${status}`));
+			}
 
 			if(patched && patchedVersions.includes(effectiveVersion)) {
-				t.ok(notReproducible, `${cveName} should be patched in v${effectiveVersion}`);
+				t.notOk(reproducible, `${cveName} should be patched in v${effectiveVersion}`);
 			}
 			else {
 				if(cve[1].exceptions.includes(version)) {
-					t.ok(notReproducible, `${cveName} is supposed be reproducible in v${effectiveVersion} according to the CVE but it can't be reproduced`);
+					t.notOk(reproducible, `${cveName} is supposed be reproducible in v${effectiveVersion} according to the CVE but it can't be reproduced`);
 				}
 				else {
-					t.notOk(notReproducible, `${cveName} should be reproducible in v${effectiveVersion}`);
+					t.ok(reproducible, `${cveName} should be reproducible in v${effectiveVersion}`);
 				}
 			}
 		}
