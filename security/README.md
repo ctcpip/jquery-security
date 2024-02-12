@@ -29,16 +29,23 @@ Includes instructions only for how to run the tests on MacOS. (PRs welcome for i
 
 ## A/B end-to-end acceptance tests
 
-At the moment, A/B E2E test verification for CVE fixes is done manually. We should automate this (QUnit, testem). (PRs welcome!)
+Tests run on every push in CI via [GitHub workflow](https://github.com/ctcpip/jquery-security-patches/actions/workflows/security-test.yml)
 
-### How to run A/B end-to-end acceptance tests
+You can run the A/B tests locally in CI mode or manually in the browser
+
+### How to run A/B end-to-end acceptance tests in CI mode
 
 - Checkout the `main` branch
-- Run the node/express server in `/security/server`: `node index.js`
-- Use a local webserver to serve the static files in the folder for the version you care about in this repo, e.g. `security/1.6.5-sec`.
-  - This is trivial using something like VS Code. Just open up one of the HTML files, such as `/security/1.6.5-sec/index-1.6.4.html` and using the command palette, select `Live Preview: Show Preview (External Browser)`
-- Open the A HTML file (in this example that would be `index-1.6.4.html` and if you're using VS Code to serve the files, it will likely be served at `http://127.0.0.1:3000/security/1.6.5-sec/index-1.6.4.html`)
-- Click on every button, verifying each vulnerability manifests in the log, e.g. with an 'alert!' or 'prototype has been polluted' message. Also verify no unexpected errors appear.
-- Open the B HTML file (in this example that would be `index-1.6.5-sec.html` and if you're using VS Code to serve the files, it will likely be served at `http://127.0.0.1:3000/security/1.6.5-sec/index-1.6.5-sec.html`)
-- Click on every button, verifying each vulnerability DOES NOT manifest in the log, e.g. only showing that the CVE reproduction methods were called, but failed to reproduce the issue. Also verify no unexpected errors appear
+- Run `nom test` in `/security/test`
+- Rejoice!
+
+### How to run A/B end-to-end acceptance tests manually
+
+- Checkout the `main` branch
+- Run `nom run serve` in `/security/test`
+- Open <http://localhost:3333> in your browser of choice
+- Select the jQuery version you are interested in
+- All CVEs are reproduced automatically, but you can trigger them again by clicking their respective buttons
+- Check the `Patched` checkbox to load the patched version of the jQuery version you selected
+- An attempt is made to trigger all CVEs automatically, but you can attempt to trigger them again by clicking their respective buttons
 - Rejoice!

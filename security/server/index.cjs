@@ -22,5 +22,5 @@ app.use(express.static('../site'));
 
 app.listen(port, () => {
   console.log(`listening on port ${port} (test site)`);
+  console.log('\nopen http://localhost:3333 in your browser if you want to test manually');
 });
-

@@ -1,6 +1,8 @@
 {
   "private": true,
   "scripts": {
+    "//": "run server for manual testing",
+    "serve": "node ../server/index.cjs",
     "//": "use node test runner",
     "node": "npm test node",
     "//": "use tap test runner",
