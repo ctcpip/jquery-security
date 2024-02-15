@@ -8,7 +8,8 @@ import chalk from 'chalk';
 // these are fully patched
 const patchedVersions = [
 	'1.2.7-sec',
-	'1.6.5-sec'
+	'1.3.3-sec',
+	'1.6.5-sec',
 ];
 
 function banner(txt, {borderColor = 'magenta', textColor = 'cyan'} = {borderColor: 'magenta',  textColor: 'cyan'}) {

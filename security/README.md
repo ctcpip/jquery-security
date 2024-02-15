@@ -1,45 +1,52 @@
-# Testing
+# Testing (and building) jQuery
 
 > [!IMPORTANT]
-> In order to keep the version PRs clean, you will need to use different branches depending on whether you want to run the jQuery tests or the A/B CVE tests. For the A/B CVE tests, you need to checkout the `main` branch. For the jQuery tests, you need to checkout the branch of the version you are interested in, e.g. `1.6.5-sec`.
+> In order to keep the version PRs clean, you will need to use different branches depending on whether you want to run the jQuery tests, build jQuery, or run the A/B CVE tests. For the A/B CVE tests, you need to checkout the `main` branch. For the jQuery tests or to build jQuery, you need to checkout the branch of the version you are interested in, e.g. `1.6.5-sec`.
 
-## jQuery tests
+## Testing
 
-### How to run jQuery tests
+### jQuery tests
 
-Includes instructions only for how to run the tests on MacOS. (PRs welcome for instructions for other platforms!)
+#### How to run jQuery tests
 
-#### 1.2.6 / 1.2.7-sec
+##### 1.2.6 / 1.2.7-sec
 
+- Checkout the `1.2.6` or `1.2.7-sec` branch
 - Run `make test` from the root folder of the repo
 - Open `/tests/index.html` in your browser
 
-#### 1.6.4 / 1.6.5-sec
+##### 1.3.2 / 1.3.3-sec
 
-##### Prerequisites
+<!-- - Checkout the `1.3.2` or `1.3.3-sec` branch
+- Run `make test` from the root folder of the repo
+- Open `/tests/index.html` in your browser -->
+
+##### 1.6.4 / 1.6.5-sec
+
+###### Prerequisites
 
 - Install php 5.6
-  - We recommend using [homebrew-php](https://github.com/shivammathur/homebrew-php)
+  - For Macs, We recommend using [homebrew-php](https://github.com/shivammathur/homebrew-php)
 
-##### Running the tests
+###### Running the tests
 
-- Checkout the branch of the version you are interested in, e.g. `1.6.5-sec`
+- Checkout the `1.6.4` or `1.6.5-sec` branch
 - Run php server from the root folder of the repo: `php -S 127.0.0.1:8000`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
 
-## A/B end-to-end acceptance tests
+### A/B end-to-end acceptance tests
 
 Tests run on every push in CI via [GitHub workflow](https://github.com/ctcpip/jquery-security-patches/actions/workflows/security-test.yml)
 
 You can run the A/B tests locally in CI mode or manually in the browser
 
-### How to run A/B end-to-end acceptance tests in CI mode
+#### How to run A/B end-to-end acceptance tests in CI mode
 
 - Checkout the `main` branch
 - Run `nom test` in `/security/test`
 - Rejoice!
 
-### How to run A/B end-to-end acceptance tests manually
+#### How to run A/B end-to-end acceptance tests manually
 
 - Checkout the `main` branch
 - Run `nom run serve` in `/security/test`
@@ -49,3 +56,22 @@ You can run the A/B tests locally in CI mode or manually in the browser
 - Check the `Patched` checkbox to load the patched version of the jQuery version you selected
 - An attempt is made to trigger all CVEs automatically, but you can attempt to trigger them again by clicking their respective buttons
 - Rejoice!
+
+## Building
+
+<!-- markdownlint-disable-next-line MD024 -->
+### 1.2.6 / 1.2.7-sec
+
+- Checkout the `1.2.6` or `1.2.7-sec` branch
+- Run `make jquery` from the root folder of the repo
+  - this will output `./dist/jquery.js`
+
+<!-- markdownlint-disable-next-line MD024 -->
+### 1.3.2 / 1.3.3-sec
+
+- Checkout the `1.3.2` or `1.3.3-sec` branch
+- Run `make jquery` from the root folder of the repo
+  - this will output `./dist/jquery.js`
+
+<!-- markdownlint-disable-next-line MD024 -->
+### 1.6.4 / 1.6.5-sec
