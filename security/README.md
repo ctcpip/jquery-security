@@ -65,7 +65,13 @@
 #### 1.6.4 / 1.6.5-sec
 
 - Checkout the `1.6.4` or `1.6.5-sec` branch
-- Run php server from the root folder of the repo: `php -S 127.0.0.1:8000`
+- Run php server from the root folder of the repo: `php -S 127.0.0.1:8000 -t test`
+- Open `127.0.0.1:8000/tests/index.html` in your browser
+
+#### 1.7.2 / 1.7.3-sec
+
+- Checkout the `1.7.2` or `1.7.3-sec` branch
+- Run php server from the root folder of the repo: `php -S 127.0.0.1:8000 -t test`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
 
 ### A/B end-to-end acceptance tests
@@ -133,6 +139,13 @@ You can run the A/B tests locally in CI mode or manually in the browser
 ### 1.6.4 / 1.6.5-sec
 
 - Checkout the `1.6.4` or `1.6.5-sec` branch
+- From the root folder of the repo:
+  - Run `make`
+    - This will output `./dist/jquery.js`
+
+#### 1.7.2 / 1.7.3-sec
+
+- Checkout the `1.7.2` or `1.7.3-sec` branch
 - From the root folder of the repo:
   - Run `make`
     - This will output `./dist/jquery.js`
