@@ -11,7 +11,7 @@ In a perfect world, at least every MAJOR EOL jQuery release line would have a se
 | ✅     | `1.2.6`        | `1.2.7-sec`        | [1.2.7-sec] | [PR][1.2.7-pr] |         | [CVE-2011-4969] \| [CVE-2012-6708] \| <del>CVE-2015-9251</del>\* \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023] |
 | ✅     | `1.3.2`        | `1.3.3-sec`        | [1.3.3-sec] | [PR][1.3.3-pr] |         | [CVE-2011-4969] \| [CVE-2012-6708] \| <del>CVE-2015-9251</del>\* \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023] |
 | ✅     | `1.4.4`        | `1.4.5-sec`        | [1.4.5-sec] | [PR][1.4.5-pr] |         | [CVE-2011-4969] \| [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]            |
-| 🚧     | `1.5.2`        | `1.5.3-sec`        |             |                |         | [CVE-2011-4969] \| [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]            |
+| ✅     | `1.5.2`        | `1.5.3-sec`        | [1.5.3-sec] | [PR][1.5.3-pr] |         | [CVE-2011-4969] \| [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]            |
 | ✅     | `1.6.4`        | `1.6.5-sec`        | [1.6.5-sec] | [PR][1.6.5-pr] |         | [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]                               |
 | 🚧     | `1.7.2`        | `1.7.3-sec`        |             |                |         | [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]                               |
 | 🚧     | `1.8.3`        | `1.8.4-sec`        |             |                |         | [CVE-2012-6708] \| [CVE-2015-9251] \| [CVE-2019-11358] \| [CVE-2020-7656] \| [CVE-2020-11022] \| [CVE-2020-11023]                               |
@@ -63,7 +63,9 @@ Ultimately, our hope is that these patched versions can be approved and accepted
 [1.3.3-sec]: https://github.com/ctcpip/jquery-security-patches/tree/1.3.3-sec
 [1.3.3-pr]: https://github.com/ctcpip/jquery-security-patches/pull/3
 [1.4.5-sec]: https://github.com/ctcpip/jquery-security-patches/tree/1.4.5-sec
-[1.4.5-pr]: https://github.com/ctcpip/jquery-security-patches/pull/4
+[1.4.5-pr]: https://github.com/ctcpip/jquery-security-patches/pull/5
+[1.5.3-sec]: https://github.com/ctcpip/jquery-security-patches/tree/1.5.3-sec
+[1.5.3-pr]: https://github.com/ctcpip/jquery-security-patches/pull/6
 [1.6.5-sec]: https://github.com/ctcpip/jquery-security-patches/tree/1.6.5-sec
 [1.6.5-pr]: https://github.com/ctcpip/jquery-security-patches/pull/1
 [CVE-2011-4969]: https://github.com/advisories/GHSA-579v-mp3v-rrw5

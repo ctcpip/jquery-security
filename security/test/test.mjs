@@ -10,6 +10,7 @@ const patchedVersions = [
 	'1.2.7-sec',
 	'1.3.3-sec',
 	'1.4.5-sec',
+	'1.5.3-sec',
 	'1.6.5-sec',
 ];
 
