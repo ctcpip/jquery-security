@@ -79,7 +79,7 @@ input[type="checkbox"] {
 	background-color: var(--grey);
 	border: solid .2rem var(--blue-white);
 	margin: 2rem;
-	width: 32rem;
+	width: 30rem;
 }
 
 .cve__header {

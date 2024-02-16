@@ -90,11 +90,11 @@ if(qsVersion) {
 else {
 
 	const sessionVersion = sessionStorage.getItem(VERSION);
-	const sessionPatched = sessionStorage.getItem(PATCHED);
+	const sessionPatched = sessionStorage.getItem(PATCHED) === 'true';
 
 	if(sessionVersion) {
 		selVersion.value = sessionVersion;
-		chkPatched.checked = sessionPatched === 'true';
+		chkPatched.checked = sessionPatched;
 	}
 
 }
@@ -165,6 +165,8 @@ function triggerCVE(cveID){
 function updateCVE(cve) {
 
 	const cveID = `CVE-${cve[0]}`;
+	const version = sessionStorage.getItem(VERSION); // use version from session/select because our CVE map doesn't have the patched versions
+	const patched = sessionStorage.getItem(PATCHED) === 'true';
 
 	const $relevantCVEFooter = $(`div.cve__header:contains(${cveID})`).siblings('.cve__footer');
 	const $footerStatus = $('.cve__footer-status', $relevantCVEFooter);
@@ -180,11 +182,19 @@ function updateCVE(cve) {
 	}
 	else {
 		$footerStatus.text(`Can't reproduce! 🎉`);
-		const v = sessionStorage.getItem(VERSION); // use version from session/select because our CVE map doesn't have the patched versions
-		if(!cve[1].versions.includes(v)) {
+
+		if(!patched) {
+
 			const $footerNote = $('.cve__footer-note', $relevantCVEFooter);
-			$footerNote.text(`(but v${v} is not vulnerable to this CVE)`);
+
+			if(cve[1].versions.includes(version)) {
+				$footerNote.text(`but v${version} should be vulnerable 🤔`);
+			}
+			else {
+				$footerNote.text(`but v${version} is not vulnerable 😺`);
+			}
 		}
+
 	}
 
 	$relevantCVEFooter.addClass('flash');

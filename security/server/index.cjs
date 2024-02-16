@@ -4,6 +4,7 @@ const xssApp = express();
 const port = 3333;
 const xssPort = 3334;
 const cors = require('cors');
+const chalk = require('chalk');
 
 xssApp.use(cors());
 
@@ -15,12 +16,12 @@ xssApp.get('/jqueryxss', (req, res) => {
 });
 
 xssApp.listen(xssPort, () => {
-  console.log(`listening on port ${xssPort} (xss endpoint)`);
+  console.log(chalk.magenta(`listening on port ${xssPort} (xss endpoint)`));
 });
 
 app.use(express.static('../site'));
 
 app.listen(port, () => {
-  console.log(`listening on port ${port} (test site)`);
-  console.log('\nopen http://localhost:3333 in your browser if you want to test manually');
+  console.log(chalk.cyan(`listening on port ${port} (test site)`));
+  console.log(chalk.green('\nopen http://localhost:3333 in your browser if you want to test manually\n\n'));
 });
