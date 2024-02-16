@@ -53,6 +53,7 @@
 
 - Checkout the `1.5.2` or `1.5.3-sec` branch
 - From the root folder of the repo:
+  - `git submodule update --recursive`
   - `cd test`
   - Create symlink to src in test folder:
     - `ln -s ../src src`
@@ -65,13 +66,19 @@
 #### 1.6.4 / 1.6.5-sec
 
 - Checkout the `1.6.4` or `1.6.5-sec` branch
-- Run php server from the root folder of the repo: `php -S 127.0.0.1:8000 -t test`
+- From the root folder of the repo:
+  - `git submodule update --recursive`
+  - Run php server:
+    - `php -S 127.0.0.1:8000 -t test`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
 
 #### 1.7.2 / 1.7.3-sec
 
 - Checkout the `1.7.2` or `1.7.3-sec` branch
-- Run php server from the root folder of the repo: `php -S 127.0.0.1:8000 -t test`
+- From the root folder of the repo:
+  - `git submodule update --recursive`
+  - Run php server:
+    - `php -S 127.0.0.1:8000 -t test`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
 
 ### A/B end-to-end acceptance tests
@@ -115,17 +122,6 @@ You can run the A/B tests locally in CI mode or manually in the browser
 
 - Checkout the `1.4.4` or `1.4.5-sec` branch
 - From the root folder of the repo:
-  - `git clone git@github.com:qunitjs/qunit.git --depth=1 test/qunit`
-  - `cd test/qunit`
-  - Get the closest QUnit commit to the jQuery version/release:
-    - `git checkout 25e4489a5f280e8f0a22ca99ecb401338bb75308`
-  - `cd ../..`
-  - `git clone git@github.com:jquery/sizzle.git --depth=1 src/sizzle`
-  - `cd src/sizzle`
-  - `git fetch --tags`
-  - Get corresponding sizzle branch for this jQuery version/release:
-    - `git checkout 1.4.4`
-  - `cd ../..`
   - Run `make jquery`
     - This will output `./dist/jquery.js`
 
