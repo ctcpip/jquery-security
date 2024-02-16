@@ -131,3 +131,8 @@ You can run the A/B tests locally in CI mode or manually in the browser
     - This will output `./dist/jquery.js`
 
 ### 1.6.4 / 1.6.5-sec
+
+- Checkout the `1.6.4` or `1.6.5-sec` branch
+- From the root folder of the repo:
+  - Run `make`
+    - This will output `./dist/jquery.js`
