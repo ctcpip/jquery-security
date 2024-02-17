@@ -13,6 +13,7 @@ const patchedVersions = [
 	'1.5.3-sec',
 	'1.6.5-sec',
 	'1.7.3-sec',
+	'1.8.4-sec',
 ];
 
 function banner(txt, {borderColor = 'magenta', textColor = 'cyan'} = {borderColor: 'magenta',  textColor: 'cyan'}) {

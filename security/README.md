@@ -7,6 +7,9 @@
 
 ## Prerequisites
 
+- [Make](https://en.wikipedia.org/wiki/Make_(software))
+- Node.js
+  - Node v20, the current LTS version at the time of this writing is the version used, although you may be successful with other versions
 - For older jQuery versions (1.2.6 through 1.5.2<!-- update as needed -->), you'll need to install php 5.6
   - For Macs, We recommend using [homebrew-php](https://github.com/shivammathur/homebrew-php)
 
@@ -54,6 +57,7 @@
 - Checkout the `1.5.2` or `1.5.3-sec` branch
 - From the root folder of the repo:
   - `git submodule update --recursive`
+    - if you get errors updating submodules, you may need to search for `[submodule` and update git:// urls to https://
   - `cd test`
   - Create symlink to src in test folder:
     - `ln -s ../src src`
@@ -68,6 +72,7 @@
 - Checkout the `1.6.4` or `1.6.5-sec` branch
 - From the root folder of the repo:
   - `git submodule update --recursive`
+    - if you get errors updating submodules, you may need to search for `[submodule` and update git:// urls to https://
   - Run php server:
     - `php -S 127.0.0.1:8000 -t test`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
@@ -77,6 +82,31 @@
 - Checkout the `1.7.2` or `1.7.3-sec` branch
 - From the root folder of the repo:
   - `git submodule update --recursive`
+    - if you get errors updating submodules, you may need to search for `[submodule` and update git:// urls to https://
+  - Run php server:
+    - `php -S 127.0.0.1:8000 -t test`
+- Open `127.0.0.1:8000/tests/index.html` in your browser
+
+#### 1.8.3 / 1.8.4-sec
+
+- Checkout the `1.8.3` or `1.8.4-sec` branch
+- From the root folder of the repo:
+  - `git submodule update --recursive`
+    - If you get errors updating submodules, you may need to search for `[submodule` and update git:// urls to https://
+  - Globally install the requisite ancient version of grunt: `npm i grunt@0.3.9 -g`
+  - `npm i`
+  - Modify the `grunt.js` file
+    - Remove `submodules` from the default grunt task
+    - Remove `compare_size` from default grunt task
+  - Run `grunt`
+    - You should get errors about `path.existsSync()` in `node_modules/grunt/lib/util/findup.js` and in `node_modules/grunt/bin/grunt`
+      - Modify both files to `require('fs')` and change `path.existsSync()` to `fs.existsSync()`
+  - Run `grunt`
+    - It should work now
+  - `cd test`
+  - Create symlink to dist in test folder:
+    - `ln -s ../dist dist`
+  - `cd ..`
   - Run php server:
     - `php -S 127.0.0.1:8000 -t test`
 - Open `127.0.0.1:8000/tests/index.html` in your browser
@@ -144,4 +174,21 @@ You can run the A/B tests locally in CI mode or manually in the browser
 - Checkout the `1.7.2` or `1.7.3-sec` branch
 - From the root folder of the repo:
   - Run `make`
+    - This will output `./dist/jquery.js`
+
+#### 1.8.3 / 1.8.4-sec
+
+- Checkout the `1.8.3` or `1.8.4-sec` branch
+- From the root folder of the repo:
+  - `git submodule update --recursive`
+    - If you get errors updating submodules, you may need to search for `[submodule` and update git:// urls to https://
+  - Globally install the requisite ancient version of grunt: `npm i grunt@0.3.9 -g`
+  - `npm i`
+  - Modify the `grunt.js` file
+    - Remove `submodules` from the default grunt task
+    - Remove `compare_size` from default grunt task
+  - Run `grunt`
+  - You should get errors about `path.existsSync()` in `node_modules/grunt/lib/util/findup.js` and in `node_modules/grunt/bin/grunt`
+    - Modify both files to `require('fs')` and change `path.existsSync()` to `fs.existsSync()`
+  - Run `grunt`
     - This will output `./dist/jquery.js`
