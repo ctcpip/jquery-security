@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v1.12.4
+ * jQuery JavaScript Library v1.12.5-sec
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -9,7 +9,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2016-05-20T17:17Z
+ * Date: 2024-02-18T08:52Z
  */
 
 (function( global, factory ) {
@@ -209,8 +209,9 @@ jQuery.extend = jQuery.fn.extend = function() {
 				src = target[ name ];
 				copy = options[ name ];
 
+				// Prevent Object.prototype pollution
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
@@ -2859,9 +2860,10 @@ jQuery.fn.extend( {
 var rootjQuery,
 
 	// A simple way to check for HTML strings
-	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
-	// Strict HTML recognition (#11290: must start with <)
-	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,
+	// Prioritize #id over <tag> to avoid XSS via location.hash (trac-9521)
+	// Strict HTML recognition (trac-11290: must start with <)
+	// Shortcut simple #id case for speed
+	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
 
 	init = jQuery.fn.init = function( selector, context, root ) {
 		var match, elem;
@@ -4522,7 +4524,6 @@ function createSafeFragment( document ) {
 
 // We have to close these tags to support XHTML (#13200)
 var wrapMap = {
-	option: [ 1, "<select multiple='multiple'>", "</select>" ],
 	legend: [ 1, "<fieldset>", "</fieldset>" ],
 	area: [ 1, "<map>", "</map>" ],
 
@@ -4537,9 +4538,6 @@ var wrapMap = {
 	// unless wrapped in a div with non-breaking characters in front of it.
 	_default: support.htmlSerialize ? [ 0, "", "" ] : [ 1, "X<div>", "</div>" ]
 };
-
-// Support: IE8-IE9
-wrapMap.optgroup = wrapMap.option;
 
 wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
 wrapMap.th = wrapMap.td;
@@ -5871,7 +5869,6 @@ jQuery.fn.extend( {
 
 var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
 	rnoshimcache = new RegExp( "<(?:" + nodeNames + ")[\\s/>]", "i" ),
-	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi,
 
 	// Support: IE 10-11, Edge 10240+
 	// In IE/Edge using regex groups here causes severe slowdowns.
@@ -6127,7 +6124,7 @@ function remove( elem, selector, keepData ) {
 
 jQuery.extend( {
 	htmlPrefilter: function( html ) {
-		return html.replace( rxhtmlTag, "<$1></$2>" );
+		return html;
 	},
 
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
@@ -10357,6 +10354,13 @@ function createActiveXHR() {
 
 
 
+
+// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+jQuery.ajaxPrefilter( function( s ) {
+	if ( s.crossDomain ) {
+			s.contents.script = false;
+	}
+} );
 
 // Install script dataType
 jQuery.ajaxSetup( {
