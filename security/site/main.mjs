@@ -167,9 +167,11 @@ function updateCVE(cve) {
 	const cveID = `CVE-${cve[0]}`;
 	const version = sessionStorage.getItem(VERSION); // use version from session/select because our CVE map doesn't have the patched versions
 	const patched = sessionStorage.getItem(PATCHED) === 'true';
+  const isAffectedVersion = cve[1].versions.includes(version);
 
 	const $relevantCVEFooter = $(`div.cve__header:contains(${cveID})`).siblings('.cve__footer');
 	const $footerStatus = $('.cve__footer-status', $relevantCVEFooter);
+	const $footerNote = $('.cve__footer-note', $relevantCVEFooter);
 
 	const { triggered } = cve[1];
 	let { triggerCount } = cve[1];
@@ -179,15 +181,17 @@ function updateCVE(cve) {
 		triggerCount = Number.isInteger(triggerCount) ? triggerCount += 1 : 1;
 		$footerStatus.text(`CVE triggered ${triggerCount} time${triggerCount > 1 ? 's' : ''}`);
 		cve[1].triggerCount = triggerCount;
+
+		if(!isAffectedVersion) {
+			$footerNote.text(`but v${version} shouldn't be vulnerable 🤔`);
+		}
+
 	}
 	else {
 		$footerStatus.text(`Can't reproduce! 🎉`);
 
 		if(!patched) {
-
-			const $footerNote = $('.cve__footer-note', $relevantCVEFooter);
-
-			if(cve[1].versions.includes(version)) {
+			if(isAffectedVersion) {
 				$footerNote.text(`but v${version} should be vulnerable 🤔`);
 			}
 			else {
