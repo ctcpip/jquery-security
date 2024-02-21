@@ -10,8 +10,11 @@
 - [Make](https://en.wikipedia.org/wiki/Make_(software))
 - Node.js
   - Node v20, the current LTS version at the time of this writing is the version used, although you may be successful with other versions
-- For older jQuery versions (1.2.6 through 1.12.4<!-- update as needed -->), you'll need to install php 5.6
+- You'll need to install php 5.6 -- a newer version of php will probably work as well, but we used 5.6
   - For Macs, We recommend using [homebrew-php](https://github.com/shivammathur/homebrew-php)
+- For versions up to and including 1.8.3 / 1.8.4-sec, we were able to get away with the built-in php dev server. For later versions, you'll need to have (or install) a proper server.
+  - The path of least resistance is to use `nginx`:
+  - `brew install nginx`
 
 ## Testing
 
@@ -113,14 +116,8 @@
 
 #### 1.12.4 / 1.12.5-sec
 
-For prior versions, we were able to get away with the built-in php dev server.
-We were not so successful with 1.12.4, so you'll need to have (or install) a proper server.
-The path of least resistance is to use `nginx`.
-You should already have installed PHP -- if not, see [prerequisites](#prerequisites).
-
 - Checkout the `1.12.4` or `1.12.5-sec` branch
 - From the root folder of the repo:
-  - `brew install nginx`
   - `npm i -g grunt-cli`
   - Add the following `overrides` object to `package.json`:
     -`"overrides": { "graceful-fs": "^4.2.11" }`
@@ -128,6 +125,23 @@ You should already have installed PHP -- if not, see [prerequisites](#prerequisi
   - If you get an error  about `os.tmpDir()` in `node_modules/npm/node_modules/osenv/osenv.js` then:
     - Modify that file to call `os.tmpdir()` instead of `os.tmpDir()`
   - `grunt` should work now
+  - A pre-configured `nginx` configuration file (`nginx.conf`) is in the root of the repo
+    - Modify the first two paths near the top of the file to suit your filesystem
+  - In a separate terminal window, run `nginx`, replacing the paths to suit your filesystem:
+    - `/path/to/nginx/bin/nginx -c /path/to/jquery/repo/nginx.conf -g daemon\ off\;`
+  - `cd test`
+  - `brew services start php@5.6`
+- Open `127.0.0.1/tests/index.html` in your browser
+- When you are finished:
+  - `CTRL+C` in the terminal where you are running `nginx`
+  - `brew services stop php@5.6`
+
+#### 2.2.4 / 2.2.5-sec
+
+- Checkout the `2.2.4` or `2.2.5-sec` branch
+- From the root folder of the repo:
+  - `npm i -g grunt-cli`
+  - Run `grunt`
   - A pre-configured `nginx` configuration file (`nginx.conf`) is in the root of the repo
     - Modify the first two paths near the top of the file to suit your filesystem
   - In a separate terminal window, run `nginx`, replacing the paths to suit your filesystem:
@@ -232,4 +246,12 @@ You can run the A/B tests locally in CI mode or manually in the browser
   - If you get an error  about `os.tmpDir()` in `node_modules/npm/node_modules/osenv/osenv.js` then:
     - Modify that file to call `os.tmpdir()` instead of `os.tmpDir()`
   - `grunt` should work now
+    - This will output `./dist/jquery.js`
+
+#### 2.2.4 / 2.2.5-sec
+
+- Checkout the `2.2.4` or `2.2.5-sec` branch
+- From the root folder of the repo:
+  - `npm i -g grunt-cli`
+  - Run `grunt`
     - This will output `./dist/jquery.js`
