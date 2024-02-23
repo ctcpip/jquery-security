@@ -193,7 +193,7 @@ it is preferable to use NGINX instead of the php dev server and it is required f
 
 ### A/B end-to-end acceptance tests
 
-Tests run on every push in CI via [GitHub workflow](https://github.com/ctcpip/jquery-security-patches/actions/workflows/security-test.yml)
+Tests run on every push in CI via [GitHub workflow](https://github.com/ctcpip/jquery-security/actions/workflows/security-test.yml)
 
 You can run the A/B tests locally in CI mode or manually in the browser
 
@@ -207,7 +207,7 @@ You can run the A/B tests locally in CI mode or manually in the browser
 
 - Checkout the `main` branch
 - Run `nom run serve` in `/security/test`
-- Open <http://localhost:3333> in your browser of choice
+- Open `localhost:3333` in your browser of choice
 - Select the jQuery version you are interested in
 - All CVEs are reproduced automatically, but you can trigger them again by clicking their respective buttons
 - Check the `Patched` checkbox to load the patched version of the jQuery version you selected
