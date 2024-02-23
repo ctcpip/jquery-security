@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 'lts/*'
       - run: npm ci
-        working-directory: security/server
+        working-directory: server
       - run: npm ci
-        working-directory: security/test
+        working-directory: test
       - run: npm test
-        working-directory: security/test
+        working-directory: test
